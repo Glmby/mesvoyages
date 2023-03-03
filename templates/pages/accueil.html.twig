@@ -1,2 +1,6 @@
-{% extends "basee.html.twig" %}
-<h1>Page d'accueil</h1>
+{% extends "base.html.twig" %}
+
+{% block body %}
+  <h1>Page d'acceuil</h1>
+  <a href="{{ path('voyages') }}">voyages</a>
+{% endblock %}
