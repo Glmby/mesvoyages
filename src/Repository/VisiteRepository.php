@@ -16,6 +16,18 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class VisiteRepository extends ServiceEntityRepository
 {
+     /**
+     * 
+     * @param type $champ
+     * @param type $ordre
+     * @return Visite[]
+     */
+    public function findAllorderBy($champ, $ordre):array{
+        return $this->createQueryBuilder('v')
+                ->orderBy('v.'.$champ,$ordre)
+                ->getQuery()
+                ->getResult();
+    }
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Visite::class);
