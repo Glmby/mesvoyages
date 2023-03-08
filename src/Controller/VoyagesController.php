@@ -8,6 +8,8 @@ use App\Repository\VisiteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+
 
 
 class VoyagesController extends AbstractController {
@@ -29,6 +31,19 @@ class VoyagesController extends AbstractController {
      */
     public function sort(string $champ, $ordre): Response{
         $visites=$this->repository->findAllorderBy($champ, $ordre);
+        return $this->render("pages/voyages.html.twig",[
+            'visites'=>$visites
+        ]);
+    }
+    /**
+     * @Route("/voyages/recherche/{champ}", name="voyages.findallequal")
+     * @param type $champ
+     * @param Resquest $request
+     * @return Response
+     */
+    public function FindAllEqual($champ, Request $request):Response{
+        $valeur=$request->get("recherche");
+        $visites=$this->repository->findByEqualValue($champ,$valeur);
         return $this->render("pages/voyages.html.twig",[
             'visites'=>$visites
         ]);
