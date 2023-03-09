@@ -54,7 +54,7 @@ class VisiteRepository extends ServiceEntityRepository
         parent::__construct($registry, Visite::class);
     }
 
-    public function save(Visite $entity, bool $flush = false): void
+    public function add(Visite $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -71,6 +71,7 @@ class VisiteRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    
 
 //    /**
 //     * @return Visite[] Returns an array of Visite objects
