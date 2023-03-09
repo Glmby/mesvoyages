@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminVoyagesController extends AbstractController {
     /**
-     * @Route ("/admin", name="admin.voyages")
+     * @Route ("voyages/admin", name="admin.voyages")
      * @return Response
      */ 
      public function index(): Response{
@@ -36,7 +36,7 @@ class AdminVoyagesController extends AbstractController {
         $this->repository=$repository;
     }
     /**
-     * @Route("admin/suprr/{id}", name="admin.voyage.suppr")
+     * @Route("/admin/suprr/{id}", name="admin.voyage.suppr")
      * @param Visite $visite
      * @return Response
      */
@@ -45,7 +45,7 @@ class AdminVoyagesController extends AbstractController {
         return $this->redirectToRoute('admin.voyages');
     }
     /**
-     * @Route("admin/edit/{id}", name="admin.voyage.edit")
+     * @Route("/admin/edit/{id}", name="admin.voyage.edit")
      * @param Visite $visite
      * @param Request $request
      * @return Response
@@ -60,6 +60,27 @@ class AdminVoyagesController extends AbstractController {
         }
         
         return $this->render("admin/admin.voyage.edit.html.twig",[
+            'visite'=> $visite,
+            'formVisite'=> $formVisite->createView()
+        ]);
+    }
+    /**
+     * @Route("/admin/ajout", name="admin.voyage.ajout")
+     * @param Request $request
+     * @return Response
+     */
+    
+    public function ajout(Request $request):Response{
+        $visite= new Visite();
+        $formVisite= $this->createForm(VisiteType::class, $visite);
+        
+        $formVisite->handleRequest($request);
+        if($formVisite->isSubmitted()&& $formVisite->isValid()){
+            $this->repository->add($visite, true);
+            return $this->redirectToRoute('admin.voyages');
+        }
+        
+        return $this->render("admin/admin.voyage.ajout.html.twig",[
             'visite'=> $visite,
             'formVisite'=> $formVisite->createView()
         ]);
